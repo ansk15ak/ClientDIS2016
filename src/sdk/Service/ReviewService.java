@@ -73,15 +73,14 @@ public class ReviewService {
 
     }
 
-    public void delete(String id, final ResponseCallback<Integer> responseCallback){
+    public void delete(int reviewDelete, int currentuser,  final ResponseCallback<Boolean> responseCallback){
 
-        HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/review/");
+        HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/student/review/" + reviewDelete +"/" + currentuser);
         deleteRequest.addHeader("Content-Type","application/json");
 
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
-                Delete delete = gson.fromJson(json, Delete.class);
-                responseCallback.succes(delete.getCount());
+                responseCallback.succes(true);
 
             }
 

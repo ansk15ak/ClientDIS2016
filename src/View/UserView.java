@@ -1,9 +1,7 @@
 package View;
 
 import sdk.Connection.ResponseCallback;
-import sdk.Models.Course;
-import sdk.Models.Lecture;
-import sdk.Models.Review;
+import sdk.Models.*;
 import sdk.Service.CourseService;
 import sdk.Service.LectureService;
 import sdk.Service.ReviewService;
@@ -53,22 +51,13 @@ public class UserView {
 
         courseService.getAll(currentUser, new ResponseCallback<ArrayList<Course>>() {
             public void succes(ArrayList<Course> courses) {
-                    for (Course course : courses) {
-                        System.out.println("Id:\t " + course.getId());
-                        System.out.println("Code: " + course.getCode());
-                        System.out.println("Navn: " + course.getDisplaytext());
-                        System.out.println("\n");
-
-                        //Ved ikke hvad denne gør, men undersøg det.
-                        /*    System.out.println("Authors:");
-
-                    for (Author author : book.getAuthors()) {
-                        System.out.println("\tName: " + author.getFirstName() + " " + author.getLastName());
-                    }*
-     /*Jeg mangler input til at kunne fange dette specifikke kursus, og herved have dem koblet op på deres lecture.*/
-                    }
+                for (Course course : courses) {
+                    System.out.println("Id:\t " + course.getId());
+                    System.out.println("Code: " + course.getCode());
+                    System.out.println("Navn: " + course.getDisplaytext());
+                    System.out.println("\n");
                 }
-
+            }
             public void error(int status) {
                 System.out.println("Error: " + status);
             }
@@ -103,11 +92,24 @@ public class UserView {
         Scanner input = new Scanner(System.in);
         int lectureinput = input.nextInt();
 
+        /*User user = new User();
+        if (user.getType().contentEquals("student")){
+            StudentView visMenu = new StudentView();
+            visMenu.studentMenu(currentuser, lectureinput);
+        }
+            if (user.getType().contentEquals("teacher")){
+            TeacherView visMenu1 = new TeacherView();
+            visMenu1.teacherMenu(currentuser, lectureinput);
+        }*/
 
         //Overføre ikke currentuser og lectureinput til hverken teacher eller student
 
-        StudentView visMenu = new StudentView();
-        visMenu.studentMenu(currentuser, lectureinput);
+        //Disse to viker, men kan ikke sætte dem op så de henviser til hver deres.
+        //StudentView visMenu = new StudentView();
+        //visMenu.studentMenu(currentuser, lectureinput);
+
+        TeacherView visMenu1 = new TeacherView();
+        visMenu1.teacherMenu(currentuser, lectureinput);
     }
 
 }

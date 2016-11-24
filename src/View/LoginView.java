@@ -48,9 +48,11 @@ public class LoginView {
                     }
                     if (user.getType().contentEquals("teacher")) {
                         TeacherView teacherView = new TeacherView();
-                        int lectureinput = 0;
-                        String courseinput = "";
-                        teacherView.teacherMenu(currentuser, lectureinput, courseinput);
+                        //int lectureinput = 0;
+                        //String courseinput = "";
+                        //teacherView.teacherMenu(currentuser, lectureinput);
+                        UserView userView = new UserView();
+                        userView.showAllCourses(currentuser);
                     }
                     if (user.getType().contentEquals("admin")) {
                         System.out.println("Du kan ikke benytte klienten som admin!");

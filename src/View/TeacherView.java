@@ -14,20 +14,21 @@ import java.util.Scanner;
  */
 public class TeacherView extends UserView{
 
-    public void teacherMenu(int currentuser, int lectuinput, String courseinput) {
+    public void teacherMenu(int currentuser, int lectuinput) {
         System.out.println("Velkommen til undervisningsevaluering!" + "\n");
 
         //prøvede at extended userview i håb om at de to manglende variabler ville komme med over...
         //showAllCourses(currentuser);
         //showAllLectures(currentuser, courseinput);
 
-        UserView userView = new UserView();
-        userView.showAllCourses(currentuser);
+        //UserView userView = new UserView();
+        //userView.showAllCourses(currentuser);
 
         showAllReview(currentuser, lectuinput);
 
         System.out.println("Tast (1) - Se gennemsnit for rating");
-        System.out.println("Tast (2) - Slut program");
+        System.out.println("Tast (2) - Slet en kommentar");
+        System.out.println("Tast (3) - Slut program");
 
         Scanner inputReader = new Scanner(System.in);
         int valg = inputReader.nextInt();
@@ -39,12 +40,16 @@ public class TeacherView extends UserView{
                 break;
 
             case 2:
+                deleteComment();
+                break;
+
+            case 3:
                 System.exit(20);
                 break;
 
             default:
                 System.out.println("Forkert indtastet værdi!");
-                teacherMenu(currentuser, lectuinput, courseinput);
+                teacherMenu(currentuser, lectuinput);
                 break;
         }
     }
@@ -75,6 +80,9 @@ public class TeacherView extends UserView{
     public void showAverage(){
         //Print ud gennemsnittet af rating
         System.out.println("læg alle rating sammen og divider med antallet" /*getReview.average*/);
+
+    }
+    public void deleteComment(){
 
     }
 }
