@@ -1,5 +1,6 @@
 package sdk.Service;
 
+import Security.Digester;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.methods.HttpGet;
@@ -29,15 +30,16 @@ public class CourseService {
 
     public void getAll(int currentUser, final ResponseCallback<ArrayList<Course>> responseCallback){
 
-        //den måde man lave get request på
 
-        HttpGet getRequest = new HttpGet(Connection.serverURL + "/course/" + currentUser);
+        String currentuserEncrypt = Digester.encrypt(String.valueOf(currentUser));
+
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/course/" + currentuserEncrypt);
         //kald på execute metoden med dens to argumenter
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
 
                 //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
-                ArrayList<Course> courses = gson.fromJson(json, new TypeToken<ArrayList<Course>>(){}.getType());
+                ArrayList<Course> courses = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Course>>(){}.getType());
                 responseCallback.succes(courses);
 
             }
@@ -49,4 +51,26 @@ public class CourseService {
         });
 
     }
+    public void getAllCourseParticipant(int courseId, final ResponseCallback<ArrayList<Course>> responseCallback){
+
+        String courseIdEncrypt = Digester.encrypt(String.valueOf(courseId));
+
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/teacher/course/" + courseIdEncrypt);
+        //kald på execute metoden med dens to argumenter
+        connection.execute(getRequest, new ResponseParser() {
+            public void payload(String json) {
+
+                //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
+                ArrayList<Course> courses = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Course>>(){}.getType());
+                responseCallback.succes(courses);
+
+            }
+
+            public void error(int status) {
+                responseCallback.error(status);
+
+            }
+        });
+
+}
 }

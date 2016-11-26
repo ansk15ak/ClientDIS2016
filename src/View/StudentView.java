@@ -17,14 +17,11 @@ public class StudentView {
 
     public void studentMenu(int currentuser, int lectureinput) {
 
-        //UserView userView = new UserView();
-        //userView.showAllCourses(currentuser);
-
         System.out.println("Velkommen til undervisningsevaluering!" + "\n");
         System.out.println("Tast (1) - Opret en kommentar");
         System.out.println("Tast (2) - Slet en kommentar");
-        System.out.println("Tast (3) - Se dine egne kommentar?");
-        System.out.println("Tast (4) - Se alle kommentar");
+        System.out.println("Tast (3) - Se egne kommentarer");
+        System.out.println("Tast (4) - Se alle kommentarer");
         System.out.println("Tast (5) - Slut program");
 
         Scanner inputReader = new Scanner(System.in);
@@ -34,6 +31,7 @@ public class StudentView {
 
             case 1:
                 createReview(currentuser, lectureinput);
+                studentMenu(currentuser,lectureinput);
                 break;
 
             case 2:
@@ -83,7 +81,6 @@ public class StudentView {
             public void succes(Boolean review) {
 
                 System.out.println("Dit review er nu oprette!");
-                studentMenu(currentuser,lectureinput);
             }
 
             public void error(int status) {

@@ -47,7 +47,7 @@ public class Connection {
                 parser.payload(json);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Åben serveren... Tak ");
             }
 
         }

@@ -1,5 +1,6 @@
 package sdk.Service;
 
+import Security.Digester;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.methods.HttpDelete;
@@ -31,14 +32,16 @@ public class ReviewService {
 
     public void getAll(int lectureinput, final ResponseCallback<ArrayList<Review>> responseCallback){
 
+        String lectureinputEncrypt = Digester.encrypt(String.valueOf(lectureinput));
+
         //den måde man lave get request på
-        HttpGet getRequest = new HttpGet(Connection.serverURL + "/review/" + lectureinput);
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/review/" + lectureinputEncrypt);
         //kald på execute metoden med dens to argumenter
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
 
                 //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
-                ArrayList<Review> reviews = gson.fromJson(json, new TypeToken<ArrayList<Review>>(){}.getType());
+                ArrayList<Review> reviews = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Review>>(){}.getType());
                 responseCallback.succes(reviews);
 
             }
@@ -53,14 +56,16 @@ public class ReviewService {
 
     public void getAllFromUsers(int currentUser, final ResponseCallback<ArrayList<Review>> responseCallback){
 
+        String currentUserEncrypt = Digester.encrypt(String.valueOf(currentUser));
+
         //den måde man lave get request på
-        HttpGet getRequest = new HttpGet(Connection.serverURL + "/reviews/" + currentUser);
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/reviews/" + currentUserEncrypt);
         //kald på execute metoden med dens to argumenter
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
 
                 //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
-                ArrayList<Review> reviews = gson.fromJson(json, new TypeToken<ArrayList<Review>>(){}.getType());
+                ArrayList<Review> reviews = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Review>>(){}.getType());
                 responseCallback.succes(reviews);
 
             }
@@ -75,8 +80,15 @@ public class ReviewService {
 
     public void delete(int reviewDelete, int currentuser,  final ResponseCallback<Boolean> responseCallback){
 
-        HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/student/review/" + reviewDelete +"/" + currentuser);
+        String integer = String.valueOf(reviewDelete);
+        String reviewDeleteEncrypt = Digester.encrypt(integer);
+
+        String integer1 = String.valueOf(currentuser);
+        String currentuserEncrypt = Digester.encrypt(integer1);
+
+        HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/student/review/" + reviewDeleteEncrypt +"/" + currentuserEncrypt);
         deleteRequest.addHeader("Content-Type","application/json");
+
 
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
@@ -91,6 +103,26 @@ public class ReviewService {
         });
 
     }
+    public void deleteTeacher(int reviewDeleteTeacher, final ResponseCallback<Boolean> responseCallback) {
+
+        String integer = String.valueOf(reviewDeleteTeacher);
+        String reviewDeleteTeacherEncrypt = Digester.encrypt(integer);
+
+        HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/teacher/review/" + reviewDeleteTeacherEncrypt);
+        deleteRequest.addHeader("Content-Type", "application/json");
+
+        connection.execute(deleteRequest, new ResponseParser() {
+            public void payload(String json) {
+                responseCallback.succes(true);
+
+            }
+
+            public void error(int status) {
+                responseCallback.error(status);
+
+            }
+        });
+    }
 
     //der skal nok være nogle andre variabel navne i både slet og opret review.
     public void create(Review review, final ResponseCallback<Boolean> responseCallback){
@@ -99,8 +131,8 @@ public class ReviewService {
             HttpPost postRequest = new HttpPost(Connection.serverURL + "/student/review/");
             postRequest.addHeader("Content-Type","application/json");
 
-            StringEntity jsonBook = new StringEntity(gson.toJson(review));
-            postRequest.setEntity(jsonBook);
+            StringEntity jsonReview = new StringEntity(Digester.encrypt(gson.toJson(review)));
+            postRequest.setEntity(jsonReview);
 
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {

@@ -44,7 +44,7 @@ public class UserView {
     }*/
 
 
-    public void showAllCourses(int currentUser) {
+    public void showAllCourses(int currentUser, int currentUserType) {
 
         System.out.println("Her er alle dine kurser for " /*+det indtastede study*/);
         CourseService courseService = new CourseService();
@@ -58,6 +58,7 @@ public class UserView {
                     System.out.println("\n");
                 }
             }
+
             public void error(int status) {
                 System.out.println("Error: " + status);
             }
@@ -65,9 +66,10 @@ public class UserView {
         System.out.println("Indtast det navn på det kursus, de ønsker at se moduler for: ");
         Scanner input = new Scanner(System.in);
         String courseinput = input.nextLine();
-        showAllLectures(currentUser, courseinput);
+        showAllLectures(currentUser, courseinput, currentUserType);
     }
-    public void showAllLectures(int currentuser, String courseinput) {
+
+    public void showAllLectures(int currentuser, String courseinput, int currentUserType) {
         System.out.println("Du har valgt alle forelæsning og øvelsesgang for " + courseinput + "\n");
 
         LectureService lectureService = new LectureService();
@@ -92,6 +94,35 @@ public class UserView {
         Scanner input = new Scanner(System.in);
         int lectureinput = input.nextInt();
 
+        if (currentUserType == 1) {
+            StudentView visMenu = new StudentView();
+            visMenu.studentMenu(currentuser, lectureinput);
+        }
+        if (currentUserType == 2) {
+            TeacherView visMenu1 = new TeacherView();
+            visMenu1.teacherMenu(currentuser, lectureinput);
+        }
+    }
+}
+
+        //returnToMenu(currentuser, lectureinput);
+
+    //}
+
+    /*public void returnToMenu(int currentuser, int lectureinput){
+        User user = new User();
+        if (currentuser == "student"){
+
+        }
+                user.getType().contentEquals("student")){
+            StudentView visMenu = new StudentView();
+            visMenu.studentMenu(currentuser, lectureinput);
+        }
+            if (user.getType().contentEquals("teacher")){
+            TeacherView visMenu1 = new TeacherView();
+            visMenu1.teacherMenu(currentuser, lectureinput);
+        }
+    }*/
         /*User user = new User();
         if (user.getType().contentEquals("student")){
             StudentView visMenu = new StudentView();
@@ -108,8 +139,7 @@ public class UserView {
         //StudentView visMenu = new StudentView();
         //visMenu.studentMenu(currentuser, lectureinput);
 
-        TeacherView visMenu1 = new TeacherView();
-        visMenu1.teacherMenu(currentuser, lectureinput);
-    }
+        //TeacherView visMenu1 = new TeacherView();
+        //visMenu1.teacherMenu(currentuser, lectureinput);
 
-}
+//}
