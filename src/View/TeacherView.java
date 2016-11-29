@@ -3,9 +3,11 @@ package View;
 import Logic.Controller;
 import sdk.Connection.ResponseCallback;
 import sdk.Models.Course;
+import sdk.Models.Lecture;
 import sdk.Models.Review;
 import sdk.Models.Teacher;
 import sdk.Service.CourseService;
+import sdk.Service.LectureService;
 import sdk.Service.ReviewService;
 
 import java.util.ArrayList;
@@ -20,8 +22,9 @@ public class TeacherView extends UserView{
         System.out.println("Velkommen til undervisningsevaluering!" + "\n");
 
         System.out.println("Tast (1) - Se statistik for deltagelse");
-        System.out.println("Tast (2) - Slet en kommentar");
-        System.out.println("Tast (3) - Slut program");
+        System.out.println("Tast (2) - Se statistik for gennemsnit af kursus");
+        System.out.println("Tast (3) - Slet en kommentar");
+        System.out.println("Tast (4) - Slut program");
 
         Scanner inputReader = new Scanner(System.in);
         int valg = inputReader.nextInt();
@@ -30,16 +33,20 @@ public class TeacherView extends UserView{
 
             case 1:
                 showCourseParticipant();
-                /// /showStatistics(currentuser,lectuinput);
                 teacherMenu(currentuser, lectuinput);
                 break;
 
             case 2:
-                deleteReviewTeacher(currentuser, lectuinput);
+                showCourseAverage();
                 teacherMenu(currentuser, lectuinput);
                 break;
 
             case 3:
+                deleteReviewTeacher(currentuser, lectuinput);
+                teacherMenu(currentuser, lectuinput);
+                break;
+
+            case 4:
                 System.exit(20);
                 break;
 
@@ -93,7 +100,65 @@ public class TeacherView extends UserView{
                 System.out.println("Error: " + status);
             }
         });
+    }
 
+    public void showCourseParticipant(){
+
+        CourseService courseService = new CourseService();
+        System.out.println("Vælg det kursus id du ønsker at se deltagelse for: ");
+        Scanner input2 = new Scanner(System.in);
+        int courseId = input2.nextInt();
+
+        courseService.getAllCourseParticipant(courseId, new ResponseCallback<String>() {
+            public void succes(String Data) {
+                System.out.println("Deltagelse: " + Data);
+            }
+
+            public void error(int status) {
+
+            }
+        });
+
+    }
+
+    public void showCourseAverage(){
+
+        CourseService courseService = new CourseService();
+        System.out.println("Vælg det kusus navn du ønsker at se deltagelse for: ");
+        Scanner input3 = new Scanner(System.in);
+        String name = input3.nextLine();
+
+        courseService.getCourseAverage(name, new ResponseCallback<String>() {
+            public void succes(String Data) {
+                System.out.println("Gennemsnittet: " + Data);
+            }
+
+            public void error(int status) {
+
+            }
+        });
+    }
+
+
+
+    public void showLectureParticipant(int currentuser, int lectureinput) {
+
+        LectureService lectureService = new LectureService();
+
+        System.out.println("Vælg det kursus du ønsker at se deltagelse for: ");
+        Scanner input2 = new Scanner(System.in);
+        int lectureParticipant = input2.nextInt();
+
+        lectureService.getAllLectureParticipant(lectureinput, new ResponseCallback<String>() {
+            public void succes(String Data) {
+                System.out.println("Deltagelse: " + Data);
+            }
+
+            public void error(int status) {
+
+            }
+
+        });
     }
     public void showStatistics(int currentuser, int lectureinput){
 
@@ -103,27 +168,5 @@ public class TeacherView extends UserView{
         System.out.println("Gennemsnittet af deltagende for modul: ");
 
 
-    }
-
-    public void showCourseParticipant() {
-
-        CourseService courseService = new CourseService();
-
-
-        int courseId = 1;
-        courseService.getAllCourseParticipant(courseId, new ResponseCallback<ArrayList<Course>>() {
-            public void succes(ArrayList<Course> courses) {
-                for (Course course : courses){
-                    courses.size();
-                }
-
-
-            }
-
-            public void error(int status) {
-                System.out.println("Error: " + status);
-
-            }
-        });
     }
 }

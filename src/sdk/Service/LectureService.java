@@ -8,7 +8,6 @@ import sdk.Connection.Connection;
 import sdk.Connection.ResponseCallback;
 import sdk.Connection.ResponseParser;
 import sdk.Models.Lecture;
-import sdk.Models.User;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class LectureService {
     }
 
 
-    public void getAll(String courseinput, final ResponseCallback<ArrayList<Lecture>> responseCallback){
+    public void getAll(String courseinput, final ResponseCallback<ArrayList<Lecture>> responseCallback) {
 
         String courseinputEncrypt = Digester.encrypt(String.valueOf(courseinput));
 
@@ -35,7 +34,8 @@ public class LectureService {
             public void payload(String json) {
 
                 //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
-                ArrayList<Lecture> lectures = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Lecture>>(){}.getType());
+                ArrayList<Lecture> lectures = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Lecture>>() {
+                }.getType());
                 responseCallback.succes(lectures);
 
             }
@@ -45,6 +45,27 @@ public class LectureService {
 
             }
         });
-
     }
+
+    public void getAllLectureParticipant(int lectureId, final ResponseCallback<String> responseCallback){
+
+        String lectureIdEncrypt = Digester.encrypt(String.valueOf(lectureId));
+
+        HttpGet getRequest = new HttpGet(Connection.serverURL + "/teacher/lecture/" + lectureIdEncrypt);
+        //kald på execute metoden med dens to argumenter
+        connection.execute(getRequest, new ResponseParser() {
+            public void payload(String json) {
+
+                String he = Digester.decrypt(json);
+                responseCallback.succes(he);
+
+            }
+
+            public void error(int status) {
+                responseCallback.error(status);
+
+            }
+        });
+    }
+
 }

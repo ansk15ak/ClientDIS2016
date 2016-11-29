@@ -20,7 +20,6 @@ public class UserService {
 
     private Gson gson;
     private Connection connection;
-    private AccessService accessService;
 
 
     public UserService(){
@@ -45,8 +44,6 @@ public class UserService {
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
                     User userLogin = gson.fromJson(Digester.decrypt(json),User.class);
-
-                    //accessService.setAccessToken(userLogin);
                     responseCallback.succes(userLogin);
                 }
                 public void error(int status) {
