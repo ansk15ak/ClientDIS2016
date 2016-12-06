@@ -10,8 +10,6 @@ import org.apache.http.entity.StringEntity;
 import sdk.Connection.Connection;
 import sdk.Connection.ResponseCallback;
 import sdk.Connection.ResponseParser;
-import sdk.Models.Delete;
-import sdk.Models.Lecture;
 import sdk.Models.Review;
 
 import java.io.UnsupportedEncodingException;
@@ -54,7 +52,7 @@ public class ReviewService {
 
     }
 
-    public void getAllFromUsers(int currentUser, final ResponseCallback<ArrayList<Review>> responseCallback){
+    public void getAllByUser(int currentUser, final ResponseCallback<ArrayList<Review>> responseCallback){
 
         String currentUserEncrypt = Digester.encrypt(String.valueOf(currentUser));
 

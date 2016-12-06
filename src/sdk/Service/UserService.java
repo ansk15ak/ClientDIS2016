@@ -21,7 +21,6 @@ public class UserService {
     private Gson gson;
     private Connection connection;
 
-
     public UserService(){
 
         gson = new Gson();

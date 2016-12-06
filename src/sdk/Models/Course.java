@@ -1,16 +1,22 @@
 package sdk.Models;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Skabelon for et kursus.
  */
 public class Course {
 
-    private String id;
-    private String code;
-    private String displaytext;
+    private String id; // Identifier på kurset
+    private String code; // Navnet på kurset
+    private String displaytext; // Kode på kurset
+
+    public Course(String id, String code, String displaytext) {
+        this.id = id;
+        this.code = code;
+        this.displaytext = displaytext;
+    }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -18,7 +24,7 @@ public class Course {
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     public void setCode(String code) {
@@ -26,7 +32,7 @@ public class Course {
     }
 
     public String getDisplaytext() {
-        return displaytext;
+        return this.displaytext;
     }
 
     public void setDisplaytext(String name) {

@@ -1,21 +1,23 @@
 package View;
 
-import javax.print.DocFlavor;
 import java.util.Scanner;
+
+import Logic.Controller;
 import Security.Digester;
 import sdk.Connection.ResponseCallback;
-import sdk.Models.Student;
 import sdk.Models.User;
 import sdk.Service.UserService;
 
 /**
- * Created by Junineskov on 16/11/2016.
+ * Denne klasse er login billedet på klienten.
  */
 public class LoginView {
+
     private UserService userService;
 
     public void loginMenu() {
 
+        // Indtast e-mail adresse og kodeord
         System.out.println("Velkommen til undervisningsevaluering!" + "\n");
         Scanner input1 = new Scanner(System.in);
         System.out.println("CBSMail: ");
@@ -24,11 +26,11 @@ public class LoginView {
         System.out.println("Password: ");
         String password = input2.nextLine();
 
-
-        //husk hashing og hvad med configloader!
+        // Hash kodeord
         String securedPW = Digester.hashWithSalt(password);
 
-        UserService userService = new UserService();
+        // Valider bruger i henhold til ResponseCallback interface
+        userService = new UserService();
         userService.login(mail, securedPW, new ResponseCallback<User>() {
             public void succes(User user) {
 
@@ -37,25 +39,32 @@ public class LoginView {
                 } else {
                     System.out.println("Hej, " + user.getCbsMail() + "!");
 
+                    // Hent brugertype
                     int currentuser = user.getId();
-
                     int currentUserType = 0;
 
+                    // Brugeren er studerende
                     if (user.getType().contentEquals("student")) {
                         currentUserType = 1;
-                        UserView userView = new UserView();
-                        userView.showAllCourses(currentuser, currentUserType);
                     }
+
+                    // Brugeren er lærer
                     if (user.getType().contentEquals("teacher")) {
                         currentUserType = 2;
-                        UserView userView = new UserView();
-                        userView.showAllCourses(currentuser, currentUserType);
                     }
+
+                    // Brugeren er administrator
                     if (user.getType().contentEquals("admin")) {
                         System.out.println("Du kan ikke benytte klienten som admin!");
                     }
-                }
 
+                    // Vis brugerbestemt view
+                    Controller controller = new Controller();
+                    if (currentUserType == 1 || currentUserType ==2) {
+                        controller.showUserView(currentuser, currentUserType);
+                    } else
+                        controller.showLoginView();
+                }
             }
 
             public void error(int status) {

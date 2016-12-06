@@ -1,7 +1,7 @@
 package sdk.Connection;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Interface ResponseParser som kræver parsing af to typer udfald ved svar til services.
  */
 public interface ResponseParser {
 

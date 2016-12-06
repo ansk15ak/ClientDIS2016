@@ -1,16 +1,13 @@
 package Logic;
 
-/**
- * Created by Junineskov on 16/11/2016.
- */
-
 import View.LoginView;
 import View.StudentView;
 import View.TeacherView;
 import View.UserView;
 
-//Skal der være flere controllere? se på anders's controller på et tidspunkt.
-
+/**
+ * Denne klasse styrer hvilket view der skal vises på klienten.
+ */
 public class Controller {
 
     private LoginView loginView;
@@ -18,7 +15,9 @@ public class Controller {
     private TeacherView teacherView;
     private UserView userView;
 
-
+    /**
+     * Views initieres
+     */
     public Controller() {
         this.loginView = new LoginView();
         this.studentView = new StudentView();
@@ -26,30 +25,37 @@ public class Controller {
         this.userView = new UserView();
     }
 
-    public LoginView getLoginView() {
-        return loginView;
-    }
-
+    /**
+     * Viser Login view
+     */
     public void showLoginView() {
         this.loginView.loginMenu();
     }
 
-    public StudentView getStudentView() {
-        return studentView;
+    /**
+     * Viser lærer view
+     * @param currentuser den aktuelle lærer
+     * @param lectureinput den ønskede lektion
+     */
+    public void showTeacherView(int currentuser, int lectureinput) {
+        this.teacherView.teacherMenu(currentuser, lectureinput);
     }
 
+    /**
+     * Viser studerende view
+     * @param currentuser den aktuelle studerende
+     * @param lectureinput den ønskede lektion
+     */
     public void showStudentView(int currentuser, int lectureinput) {
-        this.studentView.studentMenu(currentuser,lectureinput);
+        this.studentView.studentMenu(currentuser, lectureinput);
     }
 
-    public TeacherView getTeacherView() {
-        return teacherView;
+    /**
+     * Viser bruger view
+     * @param currentuser den aktuelle bruger
+     * @param currentusertype den aktuelle brugertype
+     */
+    public void showUserView(int currentuser, int currentusertype) {
+        this.userView.showAllCourses(currentuser,currentusertype);
     }
-
-    public void showTeacherView() {
-    }
-    public UserView getUserView() {
-        return userView;
-    }
-
 }
