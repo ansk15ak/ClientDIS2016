@@ -7,10 +7,12 @@ import sun.misc.BASE64Encoder;
 import java.io.IOException;
 import java.security.MessageDigest;
 
-//TODO: Comments and documentation needed.
+/**
+ * En klasse indeholdende forskellige kryptografiske hash funktioner
+ * Denne klasse er hentet direkte fra Serveren
+ */
 public class Digester {
 
-    //TODO: Set SALT and KEY in config-file.
     private final static String SALT = ConfigLoader.HASH_SALT;
     private final static String KEY = ConfigLoader.ENCRYPT_KEY;
     private static MessageDigest digester;
@@ -24,12 +26,6 @@ public class Digester {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Hash string with MD5 hashing
-     * @param str
-     * @return MD5 hash of string
-     */
 
     //Hashing påbegyndes
     public static String hash(String str) {
@@ -49,8 +45,9 @@ public class Digester {
 
         return Digester._hash(str);
     }
-    //konventerer hashværdien til hexidecimaler
+    // Konverterer hashværdien til hexidecimaler
     private static String _hash(String str){
+
         digester.update(str.getBytes());
         byte[] hash = digester.digest();
         StringBuffer hexString = new StringBuffer();
@@ -64,6 +61,7 @@ public class Digester {
         return hexString.toString();
     }
 
+    // Base64encoded enkryptering
     public static String encrypt(String s) {
 
         String encrypted_string = s;
@@ -71,9 +69,11 @@ public class Digester {
         if(ConfigLoader.ENCRYPTION.equals("TRUE")){
             encrypted_string = base64Encode(xorWithKey(encrypted_string.getBytes(), KEY.getBytes()));
         }
+
         return encrypted_string;
     }
 
+    // Base64decoded dekryptering
     public static String decrypt(String s) {
 
         String decrypted_string = s;
@@ -81,30 +81,34 @@ public class Digester {
         if(ConfigLoader.ENCRYPTION.equals("TRUE")) {
             decrypted_string = new String(xorWithKey(base64Decode(s), KEY.getBytes()));
         }
+
         return decrypted_string;
     }
 
-    //
+    // xorWithKey
     private static byte[] xorWithKey(byte[] a, byte[] key) {
         byte[] out = new byte[a.length];
         for (int i = 0; i < a.length; i++) {
             out[i] = (byte) (a[i] ^ key[i%key.length]);
         }
+
         return out;
     }
 
     //Metode til at dekryptering
     private static byte[] base64Decode(String s) {
+
         try {
             BASE64Decoder d = new BASE64Decoder();
             return d.decodeBuffer(s);
         } catch (IOException e) {throw new RuntimeException(e);}
     }
 
-    //metode til kryptering
+    // Metode til kryptering
     private static String base64Encode(byte[] bytes) {
-        BASE64Encoder enc = new BASE64Encoder();
-        return enc.encode(bytes).replaceAll("\\s", "");
 
+        BASE64Encoder enc = new BASE64Encoder();
+
+        return enc.encode(bytes).replaceAll("\\s", "");
     }
 }

@@ -3,18 +3,26 @@ package sdk.Models;
 import java.util.Date;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Skabelon for en lektion.
  */
 public class Lecture {
 
-    private int id;
-    private int courseId;
-    private String type;
-    private String description;
-    private String location;
+    private int id; // Identifier på lektionen
+    private int courseId; // Identifier på kurset
+    private String type; // Brugertype
+    private String description; //Navn på kurset
+    private String location; // Lokale placering
+
+    public Lecture(int id, int courseId, String type, String description, String location) {
+        this.id = id;
+        this.courseId = courseId;
+        this.type = type;
+        this.description = description;
+        this.location = location;
+    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -22,7 +30,7 @@ public class Lecture {
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {
@@ -30,23 +38,21 @@ public class Lecture {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
-    }
+    public String getLocation() { return this.location; }
 
     public void setLocation(String location) {
         this.location = location;
     }
 
     public int getCourseId() {
-        return courseId;
+        return this.courseId;
     }
 
     public void setCourse_Id(int courseId) {

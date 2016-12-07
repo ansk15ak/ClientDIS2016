@@ -16,9 +16,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Denne klasse bygger kaldet til serveren op og sender kaldet videre til connection.
  */
 public class ReviewService {
+
     private Connection connection;
     private Gson gson;
 
@@ -27,127 +28,127 @@ public class ReviewService {
         this.gson = new Gson();
     }
 
-
+    /**
+     * Hent alle reviews på en lektion
+     * @param lectureinput den aktuelle lektion
+     * @param responseCallback svar håndteret fra server
+     */
     public void getAll(int lectureinput, final ResponseCallback<ArrayList<Review>> responseCallback){
 
+        // Den aktuelle lektion krypteres
         String lectureinputEncrypt = Digester.encrypt(String.valueOf(lectureinput));
 
+        // Eksekver kald til connection - reviews retur ved success, status retur ved error
         //den måde man lave get request på
         HttpGet getRequest = new HttpGet(Connection.serverURL + "/review/" + lectureinputEncrypt);
-        //kald på execute metoden med dens to argumenter
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
 
-                //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
+                // Tager JSON og laver det om til en arraylist
                 ArrayList<Review> reviews = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Review>>(){}.getType());
                 responseCallback.succes(reviews);
-
             }
-
-            public void error(int status) {
-                responseCallback.error(status);
-
-            }
+            public void error(int status) { responseCallback.error(status); }
         });
-
     }
 
+    /**
+     * Henter alle reviews oprettet af brugeren
+     * @param currentUser den aktulle bruger
+     * @param responseCallback svar håndteret fra server
+     */
     public void getAllByUser(int currentUser, final ResponseCallback<ArrayList<Review>> responseCallback){
 
+        // Den aktuelle bruger krypteres
         String currentUserEncrypt = Digester.encrypt(String.valueOf(currentUser));
 
-        //den måde man lave get request på
+        // Eksekver kald til connection - reviews fra brugeren retur ved success, status retur ved error
         HttpGet getRequest = new HttpGet(Connection.serverURL + "/reviews/" + currentUserEncrypt);
-        //kald på execute metoden med dens to argumenter
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
 
-                //Tager Json og laver det om til en arraylist, og dervd gemme den i books.
+                // Tager JSON og laver det om til en arraylist
                 ArrayList<Review> reviews = gson.fromJson(Digester.decrypt(json), new TypeToken<ArrayList<Review>>(){}.getType());
                 responseCallback.succes(reviews);
-
             }
-
-            public void error(int status) {
-                responseCallback.error(status);
-
-            }
+            public void error(int status) { responseCallback.error(status); }
         });
-
     }
 
+    /**
+     * Slet et review oprette af den studerende
+     * @param reviewDelete det aktuelle review
+     * @param currentuser den aktuelle bruger
+     * @param responseCallback svar håndteret fra server
+     */
     public void delete(int reviewDelete, int currentuser,  final ResponseCallback<Boolean> responseCallback){
 
+        // Det aktuelle review krypteres
         String integer = String.valueOf(reviewDelete);
         String reviewDeleteEncrypt = Digester.encrypt(integer);
 
+        // Den aktuelle bruger krypteres
         String integer1 = String.valueOf(currentuser);
         String currentuserEncrypt = Digester.encrypt(integer1);
 
+        // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
         HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/student/review/" + reviewDeleteEncrypt +"/" + currentuserEncrypt);
-        deleteRequest.addHeader("Content-Type","application/json");
-
-
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
+
+                // Spørg
                 responseCallback.succes(true);
-
             }
-
-            public void error(int status) {
-                responseCallback.error(status);
-
-            }
+            public void error(int status) { responseCallback.error(status); }
         });
-
     }
+
+    /**
+     * Slet et review oprette af de studerende
+     * @param reviewDeleteTeacher det aktuelle review
+     * @param responseCallback svar håndteret fra server
+     */
     public void deleteTeacher(int reviewDeleteTeacher, final ResponseCallback<Boolean> responseCallback) {
 
+        // Det aktuelle review krypteres
         String integer = String.valueOf(reviewDeleteTeacher);
         String reviewDeleteTeacherEncrypt = Digester.encrypt(integer);
 
+        // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
         HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/teacher/review/" + reviewDeleteTeacherEncrypt);
-        deleteRequest.addHeader("Content-Type", "application/json");
-
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
+
+                // Spørg
                 responseCallback.succes(true);
-
             }
-
-            public void error(int status) {
-                responseCallback.error(status);
-
-            }
+            public void error(int status) { responseCallback.error(status); }
         });
     }
 
-    //der skal nok være nogle andre variabel navne i både slet og opret review.
+    /**
+     * Opret et review
+     * @param review det aktuelle review
+     * @param responseCallback svar håndteret fra server
+     */
     public void create(Review review, final ResponseCallback<Boolean> responseCallback){
 
         try {
+            // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
             HttpPost postRequest = new HttpPost(Connection.serverURL + "/student/review/");
             postRequest.addHeader("Content-Type","application/json");
-
             StringEntity jsonReview = new StringEntity(Digester.encrypt(gson.toJson(review)));
             postRequest.setEntity(jsonReview);
-
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
-                    //Review newReview = gson.fromJson(json, Review.class);
+
+                    // Spørg
                     responseCallback.succes(true);
-
                 }
-
-                public void error(int status) {
-                    responseCallback.error(status);
-
-                }
+                public void error(int status) { responseCallback.error(status); }
             });
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
 }

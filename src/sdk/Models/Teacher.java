@@ -1,7 +1,7 @@
 package sdk.Models;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Skabelon for en lærer.
  */
 public class Teacher {
 }

@@ -1,4 +1,5 @@
 package sdk.Service;
+
 import Security.Digester;
 import com.google.gson.Gson;
 import org.apache.http.client.methods.HttpPost;
@@ -13,21 +14,26 @@ import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Executor;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Denne klasse bygger kaldet til serveren op og sender kaldet videre til connection.
  */
-
 public class UserService {
 
     private Gson gson;
     private Connection connection;
 
     public UserService(){
-
         gson = new Gson();
     }
 
+    /**
+     * Valider login
+     * @param mail den aktuelle mail
+     * @param password det aktuelle password
+     * @param responseCallback svar håndteret fra server
+     */
     public void login(String mail, String password, final ResponseCallback<User> responseCallback){
 
+        // Eksekver kald til connection - adgang til brugerbestemt view retur ved success, status retur ved error
         HttpPost postRequest = new HttpPost(Connection.serverURL + "/login");
 
         User login = new User();
@@ -42,6 +48,8 @@ public class UserService {
             Connection connection = new Connection();
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
+
+                    //Spørg
                     User userLogin = gson.fromJson(Digester.decrypt(json),User.class);
                     responseCallback.succes(userLogin);
                 }
@@ -49,12 +57,8 @@ public class UserService {
                     responseCallback.error(status);
                 }
             });
-
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
-
-
 }

@@ -1,42 +1,45 @@
 package sdk.Models;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Skabelon for en bruger.
  */
 public class User {
 
-    private int id;
-    private String cbsMail;
-    private String password;
-    private String type;
+    private int id; // Identifier på bruger
+    private String cbsMail; // Brugerens mail
+    private String password; // Brugerens password
+    private String type; // Brugertype
+
+    public User() {
+        this.id = id;
+        this.cbsMail = cbsMail;
+        this.password = password;
+        this.type = type;
+    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getCbsMail() {
-        return cbsMail;
-    }
+    public String getCbsMail() { return this.cbsMail; }
 
     public void setCbsMail(String cbsMail) {
         this.cbsMail = cbsMail;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getType() {
-        return type;
-    }
+    public String getType() { return this.type; }
 
     public void setType(String type) {
         this.type = type;

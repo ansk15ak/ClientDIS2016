@@ -1,34 +1,38 @@
 package sdk.Models;
 
 /**
- * Created by Junineskov on 14/11/2016.
+ * Skabelon for et review.
  */
 public class Review {
 
-    private int id;
-    private int userId;
-    private int lectureId;
-    private int rating;
-    private String comment;
+    private int id; // Identifier på review
+    private int userId; // Identifier på bruger
+    private int lectureId; // Identifier på lektion
+    private int rating; // Score på lektion
+    private String comment; // Kommentar på lektion
+
+    public Review() {
+        this.id = id;
+        this.userId = userId;
+        this.lectureId = lectureId;
+        this.rating = rating;
+        this.comment = comment;
+    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
+    public int getUserId() { return this.userId; }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public int getLectureId() {
-        return lectureId;
+        return this.lectureId;
     }
 
     public void setLectureId(int lectureId) {
@@ -36,7 +40,7 @@ public class Review {
     }
 
     public int getRating() {
-        return rating;
+        return this.rating;
     }
 
     public void setRating(int rating) {
@@ -44,7 +48,7 @@ public class Review {
     }
 
     public String getComment() {
-        return comment;
+        return this.comment;
     }
 
     public void setComment(String comment) {
