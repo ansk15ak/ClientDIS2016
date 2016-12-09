@@ -12,6 +12,10 @@ public class Review {
     private String comment; // Kommentar på lektion
 
     public Review() {
+
+    }
+
+    public Review(int id, int userId, int lectureId, int rating, String comment) {
         this.id = id;
         this.userId = userId;
         this.lectureId = lectureId;

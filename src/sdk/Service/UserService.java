@@ -33,7 +33,6 @@ public class UserService {
      */
     public void login(String mail, String password, final ResponseCallback<User> responseCallback){
 
-        // Eksekver kald til connection - adgang til brugerbestemt view retur ved success, status retur ved error
         HttpPost postRequest = new HttpPost(Connection.serverURL + "/login");
 
         User login = new User();
@@ -41,15 +40,17 @@ public class UserService {
         login.setPassword(password);
 
         try {
+            // Det aktuelle login krypteres
             StringEntity loginInfo = new StringEntity(Digester.encrypt(gson.toJson(login)));
             postRequest.setEntity(loginInfo);
             postRequest.setHeader("Content-Type", "application/json");
 
-            Connection connection = new Connection();
+            // Eksekver kald til connection - login retur ved success, status retur ved error
+            connection = new Connection();
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
 
-                    //Spørg
+                    // Tager JSON og laver det om til en User
                     User userLogin = gson.fromJson(Digester.decrypt(json),User.class);
                     responseCallback.succes(userLogin);
                 }

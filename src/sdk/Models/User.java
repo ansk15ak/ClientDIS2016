@@ -11,6 +11,10 @@ public class User {
     private String type; // Brugertype
 
     public User() {
+
+    }
+
+    public User(int id, String cbsMail, String password, String type) {
         this.id = id;
         this.cbsMail = cbsMail;
         this.password = password;

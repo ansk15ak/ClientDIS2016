@@ -13,6 +13,10 @@ public class Lecture {
     private String description; //Navn på kurset
     private String location; // Lokale placering
 
+    public Lecture() {
+
+    }
+
     public Lecture(int id, int courseId, String type, String description, String location) {
         this.id = id;
         this.courseId = courseId;

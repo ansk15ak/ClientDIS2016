@@ -47,26 +47,4 @@ public class LectureService {
             public void error(int status) { responseCallback.error(status); }
         });
     }
-
-    /*public void getAllLectureParticipant(int lectureId, final ResponseCallback<String> responseCallback){
-
-        String lectureIdEncrypt = Digester.encrypt(String.valueOf(lectureId));
-
-        HttpGet getRequest = new HttpGet(Connection.serverURL + "/teacher/lecture/" + lectureIdEncrypt);
-        //kald på execute metoden med dens to argumenter
-        connection.execute(getRequest, new ResponseParser() {
-            public void payload(String json) {
-
-                String he = Digester.decrypt(json);
-                responseCallback.succes(he);
-
-            }
-
-            public void error(int status) {
-                responseCallback.error(status);
-
-            }
-        });
-    }*/
-
 }

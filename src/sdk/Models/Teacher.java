@@ -3,5 +3,6 @@ package sdk.Models;
 /**
  * Skabelon for en lærer.
  */
-public class Teacher {
+public class Teacher extends User {
+
 }

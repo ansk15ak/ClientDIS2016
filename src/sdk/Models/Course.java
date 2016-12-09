@@ -9,6 +9,10 @@ public class Course {
     private String code; // Navnet på kurset
     private String displaytext; // Kode på kurset
 
+    public Course() {
+
+    }
+
     public Course(String id, String code, String displaytext) {
         this.id = id;
         this.code = code;

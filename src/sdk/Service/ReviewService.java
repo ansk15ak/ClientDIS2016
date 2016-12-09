@@ -39,7 +39,6 @@ public class ReviewService {
         String lectureinputEncrypt = Digester.encrypt(String.valueOf(lectureinput));
 
         // Eksekver kald til connection - reviews retur ved success, status retur ved error
-        //den måde man lave get request på
         HttpGet getRequest = new HttpGet(Connection.serverURL + "/review/" + lectureinputEncrypt);
         connection.execute(getRequest, new ResponseParser() {
             public void payload(String json) {
@@ -91,12 +90,12 @@ public class ReviewService {
         String integer1 = String.valueOf(currentuser);
         String currentuserEncrypt = Digester.encrypt(integer1);
 
-        // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
+        // Eksekver kald til connection - en acknowledge retur ved success, status retur ved error
         HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/student/review/" + reviewDeleteEncrypt +"/" + currentuserEncrypt);
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
 
-                // Spørg
+                // Acknowledge
                 responseCallback.succes(true);
             }
             public void error(int status) { responseCallback.error(status); }
@@ -114,12 +113,12 @@ public class ReviewService {
         String integer = String.valueOf(reviewDeleteTeacher);
         String reviewDeleteTeacherEncrypt = Digester.encrypt(integer);
 
-        // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
+        // Eksekver kald til connection - en acknowledge retur ved success, status retur ved error
         HttpDelete deleteRequest = new HttpDelete(Connection.serverURL + "/teacher/review/" + reviewDeleteTeacherEncrypt);
         connection.execute(deleteRequest, new ResponseParser() {
             public void payload(String json) {
 
-                // Spørg
+                // Acknowledge
                 responseCallback.succes(true);
             }
             public void error(int status) { responseCallback.error(status); }
@@ -134,15 +133,17 @@ public class ReviewService {
     public void create(Review review, final ResponseCallback<Boolean> responseCallback){
 
         try {
-            // Eksekver kald til connection - en meddelse retur ved success, status retur ved error
+            // Det aktuelle review krypteres
+            StringEntity jsonReview = new StringEntity(Digester.encrypt(gson.toJson(review)));
+
+            // Eksekver kald til connection - en acknowledge retur ved success, status retur ved error
             HttpPost postRequest = new HttpPost(Connection.serverURL + "/student/review/");
             postRequest.addHeader("Content-Type","application/json");
-            StringEntity jsonReview = new StringEntity(Digester.encrypt(gson.toJson(review)));
             postRequest.setEntity(jsonReview);
             connection.execute(postRequest, new ResponseParser() {
                 public void payload(String json) {
 
-                    // Spørg
+                    // Acknowledge
                     responseCallback.succes(true);
                 }
                 public void error(int status) { responseCallback.error(status); }
