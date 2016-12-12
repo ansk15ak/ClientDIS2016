@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Junineskov on 14/11/2016.
+ * Inspireret af kurset Java
+ * @see <a href="https://github.com/Distribuerede-Systemer-2016/java-client/tree/master/src/sdk/services" />
  */
 public class StudyService {
     private Connection connection;

@@ -15,6 +15,8 @@ import java.util.concurrent.Executor;
 
 /**
  * Denne klasse bygger kaldet til serveren op og sender kaldet videre til connection.
+ * Inspireret af kurset Java
+ * @see <a href="https://github.com/Distribuerede-Systemer-2016/java-client/tree/master/src/sdk/services" />
  */
 public class UserService {
 

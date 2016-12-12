@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 /**
  * Denne klasse er den studerendes indgang til klienten.
+ * Inspireret af kurset Java
+ * @see <a href="https://github.com/Distribuerede-Systemer-2016/java-client/tree/master/src/view" />
  */
 public class StudentView {
 

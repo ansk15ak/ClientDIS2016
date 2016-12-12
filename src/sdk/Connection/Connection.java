@@ -13,7 +13,7 @@ import java.io.IOException;
 
 /**
  * Denne klasse skaber forbindelse til Server.
- * Inspireret af Jesper Hansen.
+ * Inspireret af kurset Java
  * @see <a href="https://github.com/Distribuerede-Systemer-2016/java-client/blob/master/src/sdk/connection/Connection.java" />
  */
 public class Connection {
